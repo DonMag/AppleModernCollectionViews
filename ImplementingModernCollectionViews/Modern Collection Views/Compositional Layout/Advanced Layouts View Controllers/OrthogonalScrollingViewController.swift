@@ -462,6 +462,137 @@ extension OrthogonalScrollingViewController {
 		return layout
 	}
 	
+	// MARK: Step 8 - each element in repeating group should fill width
+	func step8CreateLayout() -> UICollectionViewLayout {
+		let layout = UICollectionViewCompositionalLayout {
+			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+
+			let halfItem = NSCollectionLayoutItem(
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+												   heightDimension: .fractionalHeight(1.0)))
+			
+			halfItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+			
+
+			let singleItem = NSCollectionLayoutItem(
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+												   heightDimension: .fractionalHeight(1.0)))
+			
+			singleItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+			
+			let fWidth: CGFloat = 0.5
+
+			let doubleHGroup = NSCollectionLayoutGroup.horizontal(
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(fWidth),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: halfItem, count: 1)
+
+			let singleHGroup = NSCollectionLayoutGroup.horizontal(
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: singleItem, count: 1)
+			
+			// to make each group fill the width of the frame,
+			//	we need to set repeatingGroup Width to 3 x 100%
+			let repeatingGroup = NSCollectionLayoutGroup.horizontal(
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0),
+												   heightDimension: .fractionalHeight(0.4)),
+				subitems: [doubleHGroup, doubleHGroup, singleHGroup])
+			
+			let section = NSCollectionLayoutSection(group: repeatingGroup)
+			section.orthogonalScrollingBehavior = .continuous
+			
+			return section
+			
+		}
+		return layout
+	}
+	
+	func step9CreateLayout() -> UICollectionViewLayout {
+		let layout = UICollectionViewCompositionalLayout {
+			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+			
+			// we're going to put "singleItem" in a "singleVerticalGroup"
+			//	so we change Width to 100%
+			let singleItem = NSCollectionLayoutItem(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+												   heightDimension: .fractionalHeight(1.0)))
+			
+			singleItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+			
+			// no change to "doubleItem"
+			let doubleItem = NSCollectionLayoutItem(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+												   heightDimension: .fractionalHeight(1.0)))
+			
+			doubleItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+			
+			// note that "singleItem" and "doubleItem" are now the same - we'll change that in the next step
+			
+			// let's create a "singleVerticalGroup" - based on "doubleVerticalGroup"
+			let singleVerticalGroup = NSCollectionLayoutGroup.vertical(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				//	subitem is 1 singleItem (count: 1), arranged vertically
+				// width of this group is what the singleItem width used to be
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.7),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: singleItem, count: 1)
+			
+			// no change to "doubleVerticalGroup"
+			let doubleVerticalGroup = NSCollectionLayoutGroup.vertical(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				//	subitem is 2 doubleItems, arranged vertically
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: doubleItem, count: 2)
+
+			let halfVerticalGroup = NSCollectionLayoutGroup.vertical(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				//	subitem is 1 singleItem (count: 1), arranged vertically
+				// width of this group is what the singleItem width used to be
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: singleItem, count: 1)
+			
+			let fullVerticalGroup = NSCollectionLayoutGroup.vertical(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				//	subitem is 1 singleItem (count: 1), arranged vertically
+				// width of this group is what the singleItem width used to be
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+												   heightDimension: .fractionalHeight(1.0)),
+				subitem: singleItem, count: 1)
+			
+
+			// let's change "repeatingGroup" from
+			//	[doubleVerticalGroup, singleItem]
+			// to
+			//	[doubleVerticalGroup, singleVerticalGroup]
+			let repeatingGroup = NSCollectionLayoutGroup.horizontal(
+				// width is percentage of "parent"
+				// height is percentage of "parent"
+				//	subitem is 2 "groups" arranged horiztonally ...
+				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.0),
+												   heightDimension: .fractionalHeight(0.4)),
+				subitems: [halfVerticalGroup, halfVerticalGroup, fullVerticalGroup])
+			
+			let section = NSCollectionLayoutSection(group: repeatingGroup)
+			section.orthogonalScrollingBehavior = .continuous
+			
+			return section
+			
+		}
+		return layout
+	}
+	
+
 	// experimenting with variable number of items, where desired layout is
 	//	all vertical columns of 3 items
 	//	with *last* column either 1, 2 or 3 items
@@ -586,7 +717,8 @@ extension OrthogonalScrollingViewController {
 extension OrthogonalScrollingViewController {
 	func configureHierarchy() {
 		// change Layout Step here
-		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step7CreateLayout())
+//		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step8CreateLayout())
+		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step9CreateLayout())
 		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		collectionView.backgroundColor = .systemBackground
 		view.addSubview(collectionView)
@@ -616,7 +748,7 @@ extension OrthogonalScrollingViewController {
 		var identifierOffset = 0
 		
 		// using just 1 section with 7 items
-		let itemsPerSection = 7
+		let itemsPerSection = 18
 		for section in 0..<1 {
 			snapshot.appendSections([section])
 			let maxIdentifier = identifierOffset + itemsPerSection
