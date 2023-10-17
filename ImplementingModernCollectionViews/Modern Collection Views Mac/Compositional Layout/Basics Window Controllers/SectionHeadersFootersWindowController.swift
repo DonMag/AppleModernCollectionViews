@@ -90,7 +90,7 @@ extension SectionHeadersFootersWindowController {
         }
 
         // initial data
-        let itemsPerSection = 5
+        let itemsPerSection = 3 //5
         let sections = Array(0..<5)
         var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
         var itemOffset = 0

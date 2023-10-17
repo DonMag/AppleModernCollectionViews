@@ -33,5 +33,6 @@ extension TitleSupplementaryView {
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset)
         ])
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+		label.font = .systemFont(ofSize: 14.0, weight: .light)
     }
 }
