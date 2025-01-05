@@ -63,6 +63,46 @@ extension OrthogonalScrollingOneTwoOneViewController {
 	//   | +---------------------------------+  +-----------+  |
 	//   +-----------------------------------------------------+
 	
+	//   +-----------------------------------------------------+
+	//   | +-------------------+  +-------------------+  +-----|
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | +-------------------+  +-------------------+  +-----|
+	//   |                                                     |
+	//   | +----------------+  +----------------+  +-----------|
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | +----------------+  +----------------+  +-----------|
+	//   | +----------------+  +----------------+  +-----------|
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | |                |  |                |  |           |
+	//   | +----------------+  +----------------+  +-----------|
+	//   |                                                     |
+	//   | +-------------------+  +-------------------+  +-----|
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | |                   |  |                   |  |     |
+	//   | +-------------------+  +-------------------+  +-----|
+	//   +-----------------------------------------------------+
+	
+
 	func createLayout() -> UICollectionViewLayout {
 		
 		let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -72,23 +112,26 @@ extension OrthogonalScrollingOneTwoOneViewController {
 			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
 			guard let sectionKind = SectionKind(rawValue: sectionIndex) else { fatalError("unknown section kind") }
 			print(sectionKind, sectionIndex)
+			let nRows: Int = sectionIndex % 2 == 0 ? 1 : 2
 			let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
 				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3)))
 			trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
 			let trailingGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(
 				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)),
 																 subitem: trailingItem,
-																 count: sectionIndex % 2 == 0 ? 1 : 2)
+																 count: nRows)
 																 //count: 2)
 			
-			let orthogonallyScrolls = sectionKind.orthogonalScrollingBehavior() != .none
-			let containerGroupFractionalWidth = orthogonallyScrolls ? CGFloat(0.45) : CGFloat(1.0)
+			let orthogonallyScrolls = true // sectionKind.orthogonalScrollingBehavior() != .none
+			let containerGroupFractionalWidth = nRows == 2 ? CGFloat(0.45) : CGFloat(0.6)
+			let containerGroupFractionalHeight = nRows == 2 ? CGFloat(0.4) : CGFloat(0.25)
 			let containerGroup = NSCollectionLayoutGroup.horizontal(
 				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(containerGroupFractionalWidth),
-												   heightDimension: .fractionalHeight(0.4)),
+												   heightDimension: .fractionalHeight(containerGroupFractionalHeight)),
+												   //heightDimension: .fractionalHeight(0.4)),
 				subitems: [trailingGroup])
 			let section = NSCollectionLayoutSection(group: containerGroup)
-			section.orthogonalScrollingBehavior = sectionKind.orthogonalScrollingBehavior()
+			section.orthogonalScrollingBehavior = .continuous // sectionKind.orthogonalScrollingBehavior()
 			
 			let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
 				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -133,8 +176,9 @@ extension OrthogonalScrollingOneTwoOneViewController {
 		let supplementaryRegistration = UICollectionView.SupplementaryRegistration
 		<TitleSupplementaryView>(elementKind: OrthogonalScrollBehaviorViewController.headerElementKind) {
 			(supplementaryView, string, indexPath) in
+			let nRows: Int = indexPath.section % 2 == 0 ? 1 : 2
 			let sectionKind = SectionKind(rawValue: indexPath.section)!
-			supplementaryView.label.text = "." + String(describing: sectionKind)
+			supplementaryView.label.text = "\(nRows) rows"
 		}
 		
 		dataSource.supplementaryViewProvider = { (view, kind, index) in
