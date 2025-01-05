@@ -75,6 +75,8 @@ class OutlineViewController: UIViewController {
                     OutlineItem(title: "Orthogonal Sections", subitems: [
                         OutlineItem(title: "Orthogonal Sections",
                                     viewController: OrthogonalScrollingViewController.self),
+						OutlineItem(title: "Orthogonal 1-2-1 rows",
+									viewController: OrthogonalScrollingOneTwoOneViewController.self),
                         OutlineItem(title: "Orthogonal Section Behaviors",
                                     viewController: OrthogonalScrollBehaviorViewController.self)
                         ])
