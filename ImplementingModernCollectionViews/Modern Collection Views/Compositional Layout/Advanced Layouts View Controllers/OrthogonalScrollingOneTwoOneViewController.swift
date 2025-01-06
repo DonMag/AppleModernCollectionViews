@@ -12,32 +12,12 @@ class OrthogonalScrollingOneTwoOneViewController: UIViewController {
 
 	static let headerElementKind = "header-element-kind"
 	
-	/// - Tag: OrthogonalBehavior
-	enum SectionKind: Int, CaseIterable {
-		case continuous, continuousGroupLeadingBoundary, paging, groupPaging, groupPagingCentered, none
-		func orthogonalScrollingBehavior() -> UICollectionLayoutSectionOrthogonalScrollingBehavior {
-			switch self {
-			case .none:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.none
-			case .continuous:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.continuous
-			case .continuousGroupLeadingBoundary:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.continuousGroupLeadingBoundary
-			case .paging:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.paging
-			case .groupPaging:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.groupPaging
-			case .groupPagingCentered:
-				return UICollectionLayoutSectionOrthogonalScrollingBehavior.groupPagingCentered
-			}
-		}
-	}
 	var dataSource: UICollectionViewDiffableDataSource<Int, Int>! = nil
 	var collectionView: UICollectionView! = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.title = "Orthogonal Section Behaviors"
+		navigationItem.title = "Orthogonal 1-2-1-2"
 		configureHierarchy()
 		configureDataSource()
 	}
@@ -45,24 +25,7 @@ class OrthogonalScrollingOneTwoOneViewController: UIViewController {
 
 extension OrthogonalScrollingOneTwoOneViewController {
 	
-	//   +-----------------------------------------------------+
-	//   | +---------------------------------+  +-----------+  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |     1     |  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  +-----------+  |
-	//   | |               0                 |                 |
-	//   | |                                 |  +-----------+  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |     2     |  |
-	//   | |                                 |  |           |  |
-	//   | |                                 |  |           |  |
-	//   | +---------------------------------+  +-----------+  |
-	//   +-----------------------------------------------------+
-	
+	// MARK: Orthogonal layout with 1-row / 2-rows / 1- row / 2-rows / etc
 	//   +-----------------------------------------------------+
 	//   | +-------------------+  +-------------------+  +-----|
 	//   | |                   |  |                   |  |     |
@@ -110,28 +73,26 @@ extension OrthogonalScrollingOneTwoOneViewController {
 		
 		let layout = UICollectionViewCompositionalLayout(sectionProvider: {
 			(sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-			guard let sectionKind = SectionKind(rawValue: sectionIndex) else { fatalError("unknown section kind") }
-			print(sectionKind, sectionIndex)
-			let nRows: Int = sectionIndex % 2 == 0 ? 1 : 2
-			let trailingItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3)))
-			trailingItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-			let trailingGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)),
-																 subitem: trailingItem,
-																 count: nRows)
-																 //count: 2)
 			
-			let orthogonallyScrolls = true // sectionKind.orthogonalScrollingBehavior() != .none
+			let nRows: Int = sectionIndex % 2 == 0 ? 1 : 2
+			
+			let thisItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
+				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.3)))
+			thisItem.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+			let thisGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(
+				widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)),
+															 subitem: thisItem,
+															 count: nRows)
+			
 			let containerGroupFractionalWidth = nRows == 2 ? CGFloat(0.45) : CGFloat(0.6)
 			let containerGroupFractionalHeight = nRows == 2 ? CGFloat(0.4) : CGFloat(0.25)
 			let containerGroup = NSCollectionLayoutGroup.horizontal(
 				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(containerGroupFractionalWidth),
 												   heightDimension: .fractionalHeight(containerGroupFractionalHeight)),
-												   //heightDimension: .fractionalHeight(0.4)),
-				subitems: [trailingGroup])
+				subitems: [thisGroup])
+			
 			let section = NSCollectionLayoutSection(group: containerGroup)
-			section.orthogonalScrollingBehavior = .continuous // sectionKind.orthogonalScrollingBehavior()
+			section.orthogonalScrollingBehavior = .continuous
 			
 			let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
 				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -177,7 +138,6 @@ extension OrthogonalScrollingOneTwoOneViewController {
 		<TitleSupplementaryView>(elementKind: OrthogonalScrollBehaviorViewController.headerElementKind) {
 			(supplementaryView, string, indexPath) in
 			let nRows: Int = indexPath.section % 2 == 0 ? 1 : 2
-			let sectionKind = SectionKind(rawValue: indexPath.section)!
 			supplementaryView.label.text = "\(nRows) rows"
 		}
 		
@@ -190,8 +150,8 @@ extension OrthogonalScrollingOneTwoOneViewController {
 		var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
 		var identifierOffset = 0
 		let itemsPerSection = 18
-		SectionKind.allCases.forEach {
-			snapshot.appendSections([$0.rawValue])
+		for i in 0..<6 {
+			snapshot.appendSections([i])
 			let maxIdentifier = identifierOffset + itemsPerSection
 			snapshot.appendItems(Array(identifierOffset..<maxIdentifier))
 			identifierOffset += itemsPerSection

@@ -717,8 +717,16 @@ extension OrthogonalScrollingViewController {
 extension OrthogonalScrollingViewController {
 	func configureHierarchy() {
 		// change Layout Step here
+		
+		// step7 matches desired layout here: https://stackoverflow.com/questions/72088824/uicollectionview-compositional-layout-with-orthogonal-scrolling-and-a-different
+		//collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step7CreateLayout())
+		
+
 //		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step8CreateLayout())
-		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step9CreateLayout())
+//		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: step9CreateLayout())
+		
+		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: originalCreateLayout())
+		
 		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		collectionView.backgroundColor = .systemBackground
 		view.addSubview(collectionView)
