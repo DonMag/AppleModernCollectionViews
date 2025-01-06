@@ -84,8 +84,8 @@ extension OrthogonalScrollingOneTwoOneViewController {
 															 subitem: thisItem,
 															 count: nRows)
 			
-			let containerGroupFractionalWidth = nRows == 2 ? CGFloat(0.45) : CGFloat(0.6)
-			let containerGroupFractionalHeight = nRows == 2 ? CGFloat(0.4) : CGFloat(0.25)
+			let containerGroupFractionalWidth = nRows == 2 ? CGFloat(0.375) : CGFloat(0.475)
+			let containerGroupFractionalHeight = nRows == 2 ? CGFloat(0.3) : CGFloat(0.20)
 			let containerGroup = NSCollectionLayoutGroup.horizontal(
 				layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(containerGroupFractionalWidth),
 												   heightDimension: .fractionalHeight(containerGroupFractionalHeight)),
