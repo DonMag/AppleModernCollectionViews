@@ -17,7 +17,7 @@ class OrthogonalScrollingOneTwoOneViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		navigationItem.title = "Orthogonal 1-2-1-2"
+		navigationItem.title = "1 and 2 row sections"
 		configureHierarchy()
 		configureDataSource()
 	}

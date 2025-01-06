@@ -59,6 +59,7 @@
 		57F0E355247D8C4100821591 /* SimpleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F0E354247D8C4100821591 /* SimpleListViewController.swift */; };
 		67AD57CC248ACDAF00D9E73E /* EmojiDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67AD57CB248ACDAF00D9E73E /* EmojiDetailViewController.swift */; };
 		FCDC44032D2AF30F00FB4D7A /* OrthogonalScrollingOneTwoOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDC44022D2AF30F00FB4D7A /* OrthogonalScrollingOneTwoOneViewController.swift */; };
+		FCDC44052D2C099C00FB4D7A /* OrthogonalScrollingStepsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDC44042D2C099C00FB4D7A /* OrthogonalScrollingStepsViewController.swift */; };
 		FD000CBA22F0E68100AE3B95 /* TableViewEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD000CB922F0E68100AE3B95 /* TableViewEditingViewController.swift */; };
 		FD002CD024A38A28004178C8 /* ReorderableListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD002CCF24A38A28004178C8 /* ReorderableListViewController.swift */; };
 		FD09E6D42276BC250009D23B /* SectionHeadersFootersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD09E6D32276BC250009D23B /* SectionHeadersFootersViewController.swift */; };
@@ -160,6 +161,7 @@
 		699CA3DA2383663700B50951 /* Modern Collection Views.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Modern Collection Views.entitlements"; sourceTree = "<group>"; };
 		85AA89463B64A375ADFAD7E9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		FCDC44022D2AF30F00FB4D7A /* OrthogonalScrollingOneTwoOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrthogonalScrollingOneTwoOneViewController.swift; sourceTree = "<group>"; };
+		FCDC44042D2C099C00FB4D7A /* OrthogonalScrollingStepsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrthogonalScrollingStepsViewController.swift; sourceTree = "<group>"; };
 		FD000CB922F0E68100AE3B95 /* TableViewEditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewEditingViewController.swift; sourceTree = "<group>"; };
 		FD002CCF24A38A28004178C8 /* ReorderableListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableListViewController.swift; sourceTree = "<group>"; };
 		FD09E6D32276BC250009D23B /* SectionHeadersFootersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeadersFootersViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +474,7 @@
 				FD65E17622761AFA00F8AF46 /* NestedGroupsViewController.swift */,
 				FD65E1782276227B00F8AF46 /* OrthogonalScrollingViewController.swift */,
 				FCDC44022D2AF30F00FB4D7A /* OrthogonalScrollingOneTwoOneViewController.swift */,
+				FCDC44042D2C099C00FB4D7A /* OrthogonalScrollingStepsViewController.swift */,
 				FD65E17A22762ADB00F8AF46 /* OrthogonalScrollBehaviorViewController.swift */,
 			);
 			path = "Advanced Layouts View Controllers";
@@ -672,6 +675,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD65E18422763A4900F8AF46 /* LabelCell.swift in Sources */,
+				FCDC44052D2C099C00FB4D7A /* OrthogonalScrollingStepsViewController.swift in Sources */,
 				FD2A161C22A0B05400418F29 /* MountainsController.swift in Sources */,
 				FD74C13E2287E99600B3A8EE /* InsertionSortViewController.swift in Sources */,
 				FD1BB0AB225FA81D003ADF88 /* WiFiController.swift in Sources */,

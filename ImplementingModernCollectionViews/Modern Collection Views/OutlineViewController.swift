@@ -73,12 +73,14 @@ class OutlineViewController: UIViewController {
                     OutlineItem(title: "Nested Groups",
                                 viewController: NestedGroupsViewController.self),
                     OutlineItem(title: "Orthogonal Sections", subitems: [
-                        OutlineItem(title: "Orthogonal Sections",
+                        OutlineItem(title: "Sections - Apple",
                                     viewController: OrthogonalScrollingViewController.self),
-						OutlineItem(title: "Orthogonal 1-2-1 rows",
+						OutlineItem(title: "Section Behaviors - Apple",
+									viewController: OrthogonalScrollBehaviorViewController.self),
+						OutlineItem(title: "Steps to 3:3:1 Layout",
+									viewController: OrthogonalScrollingStepsViewController.self),
+						OutlineItem(title: "Alternating 1 and 2 row sections",
 									viewController: OrthogonalScrollingOneTwoOneViewController.self),
-                        OutlineItem(title: "Orthogonal Section Behaviors",
-                                    viewController: OrthogonalScrollBehaviorViewController.self)
                         ])
                     ]),
                 OutlineItem(title: "Conference App", subitems: [
